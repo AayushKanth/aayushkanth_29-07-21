@@ -129,8 +129,3 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#STATICFILES_DIRS = [
-#    "C:/Users/Aayush Kanth/Documents/css/",
-#]
-
-STATIC_ROOT = "C:/Users/Aayush Kanth/env_site/Scripts/ToDoList_site/static"
