@@ -1,0 +1,175 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=WindSong:wght@500&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!--style-->
+  {% load static %}
+  <!--link rel="stylesheet" href="{% static '/style.css' %}" type="text/css"-->
+
+  <style>
+    body{
+    background-image: linear-gradient(to right, #16222A 0%, #3A6073  51%, #16222A  100%);
+    opacity: 0.75
+  }
+  .card {
+
+   
+   background: #646464;
+   margin-bottom : 5%;
+   border-radius: 5px;
+   padding : 2%;
+   overflow: auto;
+   resize: both;
+   text-overflow: ellipsis;
+   opacity: 0.75;
+  }
+  .card:hover{
+    background: #646464;
+    opacity: 1;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5),
+               0 6px 20px 0 rgba(0,0,0,0.39);
+
+  }
+  #header{
+    font-family: 'WindSong', cursive;
+    font-size: 100px;
+    
+    text-shadow: 5px 2px #444444;
+    color: #b4b4b4;
+  }
+  .submit_form{
+    background: #646464;
+    margin-bottom : 5%;
+    border-radius: 5px;
+    padding : 2%;
+    overflow: auto;
+    resize: both;
+    text-overflow: ellipsis;
+    opacity: 0.75;
+    text-align: center;    
+  }
+  .submit_form:hover{
+    background-position: right center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4),
+                0 6px 20px 0 rgba(0,0,0,0.36);
+    opacity:1; 
+  }
+
+
+  .title{
+    background-color: #646464;
+    color: #ebebeb;
+  }
+  .details{
+    background-color: #646464;
+    color: #ebebeb;
+  }
+  .date{
+    background-color: #646464;
+    color: #ebebeb;
+  }
+  #alert{
+    color: #d8d8d8;
+    background-color: black;
+    opacity: .5;
+  }
+
+  
+  .btn-grad {background-image: linear-gradient(to right, #16222A 0%, #3A6073  51%, #16222A  100%)}
+  .btn-grad {
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+  }
+
+  .btn-grad:hover {
+    background-position: right center; 
+    color: #fff;
+    text-decoration: none;
+  }
+</style>
+
+</head>
+
+<body  class="container-fluid">
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-dark" id="alert" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+ 
+      <span aria-hidden="true">&times;</span>
+ 
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <center class="row">
+    <div id="header" class="page-header">Todo List</div>
+  </center>
+
+  <div class="row">
+
+    <div class="col-md-8">
+      <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+          <div class="bg-dark p-4">
+            {% for i in list %}
+            <div class="card">
+              <center><b>{{i.title}}</b></center>
+              <hr/>
+              {{i.date}}
+              <hr/>
+              {{i.details}}
+              <br />
+              <br />
+              <form action="/del/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+                {% csrf_token %}
+                <button value="remove" type="submit"  class="btn btn-danger" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
+              </form>
+            </div>
+            {% endfor%}
+          </div>
+        </div>
+        <nav class="navbar navbar-dark bg-dark">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"> 
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>Your To-Do List
+        </nav>
+      </div>
+    </div>
+    <div class="col-md-1"> </div>
+      <div class="col-md-3" >
+        <div  class="submit_form">
+          <form  method="POST">
+            {% csrf_token %}
+            {{forms|crispy}}
+            <center>
+              <input id="submit" type="submit" class="btn btn-success btn-grad" value="submit" />
+            </center>
+          </form>
+        </div>
+      </div>
+  </div>
+</body>
+</html>

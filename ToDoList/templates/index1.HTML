@@ -1,0 +1,69 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fun with Forms in Vue.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.4/css/bulma.min.css">
+</head>
+
+<body>
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info">
+    <strong>{{message}}</strong>
+  </div>
+  {% endfor %}
+  {% endif %}
+  <h1 class="title">TODO LIST</h1>
+        <p class="subtitle">
+          Add you todo in the form <strong>quickly</strong>!
+        </p>
+        <hr>
+  {% for i in list %}
+  <div class="card">
+    <center><b>{{i.title}}</b></center>
+    <hr/>
+    {{i.date}}
+    <hr/>
+    {{i.details}}
+    <br />
+    <br />
+    <form action="/del/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+      {% csrf_token %}
+      <button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
+    </form>
+  </div>
+  {% endfor %}
+  <div class="columns" id="app">
+    <div class="column is-two-thirds">
+        <section class="form">
+          <form method="POST">
+          {% csrf_token %}
+            <div class="field">
+              <div class="control">
+                <input v-model="form.title" class="input" type="text" placeholder="Enter the title here">
+              </div>
+            </div>
+            <textarea class="textarea" placeholder="details" v-model="form.details"></textarea>
+            <button class="button is-success">Submit</button>
+          </form>
+        </section>
+    </div>
+  </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    form : {
+      title: '',
+      details: '',
+      
+    }
+  }
+})
+</script>
+</html>
